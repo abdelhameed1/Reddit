@@ -2,6 +2,7 @@ import React from 'react';
 import { Flex , Image } from '@chakra-ui/react';
 import SearchInput from './searchInput';
 import RightContent from './rightContent/rightContent';
+import AuthModal from '../Modal/Auth/AuthModal';
 
 
 const Navbar:React.FC = () => {
@@ -12,6 +13,7 @@ const Navbar:React.FC = () => {
                 <Image height={'30px'} src='/images/redditFace.svg'/>
                 <Image height={'44px'} src='/images/redditText.svg' display={{base : 'none' , md : 'unset'}}/>
             </Flex>
+            <AuthModal/>
             <SearchInput  />
             <RightContent/>
         </Flex>
