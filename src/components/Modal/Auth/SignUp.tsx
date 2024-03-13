@@ -3,6 +3,7 @@ import { AuthModalState } from '@/atoms/authModalAtom';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import { auth } from '@/firebase/clientApp';
+import  errorMessage  from '@/firebase/errors';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 const SignUp:React.FC = () => {
@@ -102,7 +103,7 @@ const SignUp:React.FC = () => {
              bg={"gray.50"}
               mb={2}
              />
-            {error && <Text color={'red.500'} textAlign={'center'}>{error}</Text>}
+            {(error || usererror) && <Text color={'red.500'} textAlign={'center'}>{error || errorMessage[usererror?.message as keyof typeof errorMessage]  }</Text>}
             <Button width={'100%'} height={"36px"} mt={2} mb={2} type='submit' isLoading={loading}> 
                 Sign Up
             </Button>
