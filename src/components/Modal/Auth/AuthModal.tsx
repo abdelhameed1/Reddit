@@ -6,6 +6,7 @@ import AuthInputs from './AuthInputs';
 import OAuthButtons from './OAuthButtons';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
+import ResetPassword from './ResetPassword';
 
 
 const AuthModal: React.FC = () => {
@@ -33,12 +34,18 @@ const AuthModal: React.FC = () => {
           <ModalCloseButton />
           <ModalBody display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'} pb={6}>
             <Flex direction={'column'} align={'center'} justify={'center'} width={'70%'}>
-              <OAuthButtons />
+              {
+                (modalState.view === 'login' || modalState.view === 'signup') ?(
+                  <>
+                  <OAuthButtons />
               <Text color={'grey.500'}>OR</Text>
               <AuthInputs />
+                  </>
+                ): (<ResetPassword/> )
+              }
 
 
-              {/* <ResetPassword/> */}
+              
             </Flex>
           </ModalBody>
 
