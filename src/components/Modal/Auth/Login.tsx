@@ -3,7 +3,7 @@ import { AuthModalState } from '@/atoms/authModalAtom';
 import { Button, Flex, Input, Text } from '@chakra-ui/react';
 import { useSetRecoilState } from 'recoil';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { ModalView } from "../../../atoms/authModalAtom";
+
 import { auth } from '@/firebase/clientApp';
 import FIREBASE_ERRORS from '@/firebase/errors';
 
@@ -74,16 +74,14 @@ const Login: React.FC= () => {
             <Button width={'100%'} height={"36px"} mt={2} mb={2} type='submit' isLoading={loading}>
                 Log In
             </Button>
-            <Text
-                fontSize="9pt"
-                color="blue.500"
-                cursor="pointer"
-                onClick={() => setAuthModal(prev => ({
+           
+            <Flex fontSize={'9pt'} justifyContent={"center"} >
+                <Text mr={1}>Forgot password ?</Text>
+                <Text color={"blue.500"} fontWeight={700} cursor={"pointer"} onClick={() => setAuthModal(prev => ({
                     ...prev, view: 'resetPassword'
-                }))}
-            >
-                Reset
-            </Text>
+                }))}>Reset</Text>
+
+            </Flex>
             <Flex fontSize={'9pt'} justifyContent={"center"} >
                 <Text mr={1}>New here ?</Text>
                 <Text color={"blue.500"} fontWeight={700} cursor={"pointer"} onClick={() => setAuthModal(prev => ({
