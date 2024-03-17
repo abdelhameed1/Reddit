@@ -1,7 +1,7 @@
 import { Button, Flex, Image, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { useSignInWithFacebook } from 'react-firebase-hooks/auth';
+//import { useSignInWithFacebook } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
 
 

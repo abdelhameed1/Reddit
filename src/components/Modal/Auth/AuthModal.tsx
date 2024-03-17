@@ -1,4 +1,4 @@
-import { useDisclosure, Button, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Flex, Text } from '@chakra-ui/react';
+import {  Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody,  Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { AuthModalState } from '../../../atoms/authModalAtom';
