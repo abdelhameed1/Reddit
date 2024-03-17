@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Menu, MenuButton, Button, MenuList, MenuItem, Icon, Flex, MenuDivider } from '@chakra-ui/react';
+import { Menu, MenuButton, Button, MenuList, MenuItem, Icon, Flex, MenuDivider, Box, Text } from '@chakra-ui/react';
 import { User, signOut } from 'firebase/auth';
 import React from 'react';
 import { FaRedditSquare } from 'react-icons/fa';
@@ -22,12 +22,30 @@ const UserMenu: React.FC<userMenuProps> = ({ user }) => {
                 <Flex align={'center'} >
                     <Flex align={'center'}>
                         {user ? (
+                            <>
+                                <Icon
+                                    fontSize={24}
+                                    mr={1}
+                                    color={'grey.300'}
+                                    as={FaRedditSquare} />
+                                <Box 
+                                    display={{ base: "none", lg: "flex" }}
+                                    flexDirection="column"
+                                    fontSize="8pt"
+                                    alignItems="flex-start"
+                                    mr={8}
+                                >
+                                    <Text fontWeight={700}>
+                                        {user?.displayName || user?.email?.split("@")[0]}
+                                    </Text>
+                                    <Flex alignItems="center">
+                                        <Icon as={IoSparkles} color="brand.100" mr={1} />
+                                        <Text color="gray.400">1 karma</Text>
+                                    </Flex>
+                                </Box>
+                            </>
 
-                            <Icon
-                                fontSize={24}
-                                mr={1}
-                                color={'grey.300'}
-                                as={FaRedditSquare} />
+
                         ) : (<Icon as={VscAccount} fontSize={24} color={'gray.400'} mr={1} />)}
 
                     </Flex>
