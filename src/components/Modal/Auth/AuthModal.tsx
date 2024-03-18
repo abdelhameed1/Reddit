@@ -13,7 +13,7 @@ const AuthModal: React.FC = () => {
 
   const [modalState, setModalState] = useRecoilState(AuthModalState);
 
-  const [user, loading, error] = useAuthState(auth)
+  const [user] = useAuthState(auth)
 
   const handleClose = () => { setModalState(prev => ({ ...prev, open: false })) }
 
