@@ -18,7 +18,7 @@ const Navbar:React.FC = () => {
                 <Image height={'30px'} src='/images/redditFace.svg'/>
                 <Image height={'44px'} src='/images/redditText.svg' display={{base : 'none' , md : 'unset'}}/>
             </Flex>
-            <CommunityMenu/>
+            {user && <CommunityMenu/>}
             <AuthModal/>
             <SearchInput user={user} />
             <Flex style={{ marginLeft: 'auto' }} >
