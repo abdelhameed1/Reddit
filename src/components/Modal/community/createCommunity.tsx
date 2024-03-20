@@ -1,6 +1,6 @@
 import { auth, firestore } from '@/firebase/clientApp';
 import { Box, Button, Checkbox, Divider, Flex, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text } from '@chakra-ui/react';
-import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, runTransaction, serverTimestamp, setDoc } from 'firebase/firestore';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -34,31 +34,39 @@ const CreateCommunity: React.FC<createCommunityProps> = ({ open, handleClose }) 
 
     const handleCreateCommunity = async () => {
         try {
-            if(error) setError('')
+            if (error) setError('')
             const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
             if (format.test(communityName)) {
                 throw new Error('Community name can only contain letters, numbers, and underscores');
-              
+
             } else if (communityName.length < 3) {
                 throw new Error('Community name must be at least 3-21 characters long');
-               
+
             }
-            
-            const communityDocRef = doc(firestore, 'communities', communityName);
-            const communityDoc = await getDoc(communityDocRef);
-            if (communityDoc.exists()) {
-                throw new Error(`Sorry, r/${communityName} is taken , Try another`);
-                
-            }
-            setLoading(true);
-            await setDoc(communityDocRef, {
-                createrId: user?.uid,
-                createdAt: serverTimestamp(),
-                numberOfMembers: 1,
-                communityName: communityName,
-                privacyType: communityType,
+            await runTransaction(firestore, async (transaction) => {
+                const communityDocRef = doc(firestore, 'communities', communityName);
+                const communityDoc = await transaction.get(communityDocRef);
+                if (communityDoc.exists()) {
+                    throw new Error(`Sorry, r/${communityName} is taken , Try another`);
+
+                }
+                 transaction.set(communityDocRef, {
+                    createrId: user?.uid,
+                    createdAt: serverTimestamp(),
+                    numberOfMembers: 1,
+                    communityName: communityName,
+                    privacyType: communityType,
+                })
+
+                transaction.set(doc(firestore, `users/${user?.uid}/communitySnippets`, communityName), {
+                    communityId: communityName,
+                    isModerator: true,
+                })
             })
-            setLoading(false)
+
+
+
+
             handleClose()
         } catch (e: any) {
             console.log(e)
