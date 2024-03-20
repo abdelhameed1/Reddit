@@ -20,7 +20,7 @@ const Login: React.FC= () => {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         signInWithEmailAndPassword(loginForm.email, loginForm.password)
-        console.log(error)
+        
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setLoginForm(prev => ({
