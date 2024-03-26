@@ -1,5 +1,5 @@
 import React from 'react';
-import { tabItem } from './NewPostForm';
+import { tabItem } from '@/utils/formTabs';
 import { Flex, Icon, Text } from '@chakra-ui/react';
 
 type tabItemProps = {
@@ -16,6 +16,7 @@ const TabItem:React.FC<tabItemProps> = ({tab , active , setActiveTab}) => {
         align={'center'} 
         flexGrow={1} 
         p={'14px 0px'} 
+        fontWeight={700}
         cursor={'pointer'} 
         _hover={{bg:'gray.50'}}
         color={active ? 'blue.500' : 'gray.500'}
