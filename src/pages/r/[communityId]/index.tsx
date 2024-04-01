@@ -8,12 +8,14 @@ import NotFound from '@/components/Community/NotFound';
 import Header from '@/components/Community/Header';
 import PageContent from '@/components/Layout/PageContent';
 import CreatePostLink from '@/components/Modal/community/createPostLink';
+import Posts from '@/components/Posts/Posts';
+
 type  CommunityPageProps = {
     communityData : Community 
 };
 
 const  CommunityPage:React.FC<CommunityPageProps> = ({communityData}) => {
-    
+   
     if (!communityData) {
         return  <NotFound/>  
     }
@@ -23,6 +25,7 @@ const  CommunityPage:React.FC<CommunityPageProps> = ({communityData}) => {
         <PageContent>
            <>
            <CreatePostLink/>
+           <Posts communityData={communityData}/>
            </> 
            <div> rhs</div> 
         </PageContent>
