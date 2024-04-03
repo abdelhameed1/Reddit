@@ -8,7 +8,7 @@ import NotFound from '@/components/Community/NotFound';
 import Header from '@/components/Community/Header';
 import PageContent from '@/components/Layout/PageContent';
 import CreatePostLink from '@/components/Modal/community/createPostLink';
-import Posts from '@/components/Posts/Posts';
+import Posts from '@/components/Posts/Post/index';
 
 type  CommunityPageProps = {
     communityData : Community 
