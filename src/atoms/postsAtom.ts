@@ -1,7 +1,7 @@
 import { Timestamp } from 'firebase/firestore';
 import {atom} from 'recoil';
 
-export type Post = {
+export type PostType = {
     id?:string,
     communityId:string,
     creatorId : string,
@@ -16,8 +16,8 @@ export type Post = {
 }
 
 interface PostState {
-    selectedPost: Post | null;
-    posts: Post[];
+    selectedPost: PostType | null;
+    posts: PostType[];
     
 }
 
