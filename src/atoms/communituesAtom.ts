@@ -16,7 +16,8 @@ export interface CommunitySnippet {
     imageURL? : string;
 }
 interface CommunityState {
-    mySnippets:CommunitySnippet[]
+    mySnippets:CommunitySnippet[],
+    currentCommunity?: Community
 }
 
 export const communityState = atom<CommunityState>({
