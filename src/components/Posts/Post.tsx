@@ -1,5 +1,5 @@
 import { PostType } from '@/atoms/postsAtom';
-import { Flex, Icon, Image, Stack, Text } from '@chakra-ui/react';
+import { Flex, Icon, Image, Skeleton, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
 import React from 'react';
 import { AiOutlineDelete } from "react-icons/ai";
@@ -27,6 +27,7 @@ type PostProps = {
 };
 
 const Post:React.FC<PostProps> = ({ post , userIsCreator , userVoteValue, onVote , onDeletePost, onSelectPost}) => {
+    const [loadingImage, setLoadingImage] = React.useState<boolean>(true)
     return (
         <Flex border='1px solid' bg={'white'} borderColor={'gray.300'} borderRadius={4} _hover={{borderColor:'gray.500'}} cursor={'pointer'}>
             <Flex direction={'column'} align={'center'} bg={'gray.100'} p={2} width={'40px'} borderRadius={4}>
@@ -53,7 +54,8 @@ const Post:React.FC<PostProps> = ({ post , userIsCreator , userVoteValue, onVote
                     <Text fontSize={'10pt'} fontWeight={'600'}>{post.body}</Text>
                     {post.imageUrl && (
                         <Flex justify={'center'} align={'center'} p={2}> 
-                            <Image src={post.imageUrl} maxHeight={'460px'} alt={post.title}/>
+                            {loadingImage && (<Skeleton height={200} width={'100%'} borderRadius={4}/>)}
+                            <Image src={post.imageUrl} maxHeight={'460px'} alt={post.title} display={loadingImage ? 'none' : 'unset'} onLoad={()=> setLoadingImage(false)}/>
                         </Flex>
                     )}
                 </Stack>

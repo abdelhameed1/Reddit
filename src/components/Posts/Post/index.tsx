@@ -9,6 +9,8 @@ type PostsProps = {
 };
 import { PostType } from '@/atoms/postsAtom';
 import Post from '../Post';
+import { Stack } from '@chakra-ui/react';
+import Loader from '../Loader';
 const Posts: React.FC<PostsProps> = ({ communityData }) => {
     const [user] = useAuthState(auth);
     const [loading, setLoading] = React.useState<boolean>(false);
@@ -20,12 +22,13 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
 
     const getPosts = async () => {
         try {
+            setLoading(true);
             const postsQuery = query(collection(firestore, 'posts'), where('communityId', '==', communityData.id), orderBy('createdAt', 'desc'));
             const postsDocs = await getDocs(postsQuery);
             const posts = postsDocs.docs.map(doc => {
                 return { id: doc.id, ...doc.data() }
             })
-            
+
             setPostStateValue(prev => ({
                 ...prev,
                 posts: posts as PostType[]
@@ -35,6 +38,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
             console.log('getPostsError', e);
 
         }
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -42,16 +46,23 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
     }, [])
     return (
         <>
-            {postStateValue.posts.map((post , index) => 
-                (<Post post={post} 
-                    key={index}
-                userIsCreator={user?.uid == post.creatorId} 
-                userVoteValue={undefined}  
-                onVote={onVote}
-                onSelectPost={onSelectPost}
-                onDeletePost={onDeletePost}
-                />)
-            )}
+            {
+                loading ? (<Loader />) : (
+                    <Stack>
+                        {postStateValue.posts.map((post, index) =>
+                        (<Post post={post}
+                            key={index}
+                            userIsCreator={user?.uid == post.creatorId}
+                            userVoteValue={undefined}
+                            onVote={onVote}
+                            onSelectPost={onSelectPost}
+                            onDeletePost={onDeletePost}
+                        />)
+                        )}
+                    </Stack>
+                )
+            }
+
         </>
     )
 }
