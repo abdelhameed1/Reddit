@@ -6,7 +6,7 @@ import TextInput from './PostForm/TextInput';
 import ImageUpload from './PostForm/ImageUpload';
 import { User } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { Post } from '@/atoms/postsAtom';
+import { PostType } from '@/atoms/postsAtom';
 import { Timestamp, addDoc, collection, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { firestore, storage } from '@/firebase/clientApp';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
@@ -31,7 +31,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
     const [selectFile, setSelectFile] = React.useState<string>('');
     const [error, setError] = React.useState<Boolean>(false)
     const handleCreatePost = async () => {
-        const post: Post = {
+        const post: PostType = {
             communityId: communityId as string,
             creatorId: user.uid,
             creatorDisplayName: user.email!.split('@')[0],
@@ -50,12 +50,13 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user }) => {
                 const downloadUrl = await getDownloadURL(imageRef)
                 await updateDoc(postDocRef, { imageUrl: downloadUrl })
             }
+             router.back()
         } catch (error) {
             setError(true)
             console.log('posting error', error)
         }
         setLoading(false)
-        router.back()
+       
     }
 
     const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
