@@ -51,7 +51,7 @@ const CreateCommunity: React.FC<createCommunityProps> = ({ open, handleClose }) 
 
                 }
                  transaction.set(communityDocRef, {
-                    createrId: user?.uid,
+                    creatorId: user?.uid,
                     createdAt: serverTimestamp(),
                     numberOfMembers: 1,
                     communityName: communityName,
