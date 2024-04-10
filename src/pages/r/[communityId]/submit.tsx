@@ -1,4 +1,4 @@
-import { communityState } from '@/atoms/communituesAtom';
+import { communityState } from '@/atoms/communitiesAtom';
 import PageContent from '@/components/Layout/PageContent';
 import NewPostForm from '@/components/Posts/NewPostForm';
 import { auth } from '@/firebase/clientApp';

@@ -10,7 +10,7 @@ import { MdOutlineLogin } from 'react-icons/md';
 import { auth } from '@/firebase/clientApp';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { AuthModalState } from '@/atoms/authModalAtom';
-import { communityState } from '@/atoms/communituesAtom';
+import { communityState } from '@/atoms/communitiesAtom';
 type userMenuProps = {
     user?: User | null
 };

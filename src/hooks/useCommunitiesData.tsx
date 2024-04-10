@@ -1,5 +1,5 @@
 import { AuthModalState } from '@/atoms/authModalAtom';
-import { communityState , Community , CommunitySnippet} from '@/atoms/communituesAtom';
+import { communityState , Community , CommunitySnippet} from '@/atoms/communitiesAtom';
 import { auth, firestore } from '@/firebase/clientApp';
 import { collection, doc, getDocs, increment, writeBatch } from 'firebase/firestore';
 import React from 'react';

@@ -1,4 +1,4 @@
-import { Community } from '@/atoms/communituesAtom';
+import { Community } from '@/atoms/communitiesAtom';
 import React, { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '@/firebase/clientApp';

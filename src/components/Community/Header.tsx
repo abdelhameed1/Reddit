@@ -1,4 +1,4 @@
-import { Community } from '@/atoms/communituesAtom';
+import { Community } from '@/atoms/communitiesAtom';
 import useCommunitiesData from '@/hooks/useCommunitiesData';
 import { Box, Button, Flex, Icon, Image, Text } from '@chakra-ui/react';
 import React from 'react';

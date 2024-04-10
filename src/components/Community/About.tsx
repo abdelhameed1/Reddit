@@ -1,4 +1,4 @@
-import { Community, communityState } from '@/atoms/communituesAtom';
+import { Community, communityState } from '@/atoms/communitiesAtom';
 import { auth, firestore, storage } from '@/firebase/clientApp';
 import useSelectFile from '@/hooks/useSelectFile';
 import { Box, Button, Divider, Flex, Icon, IconButton, Image, Spinner, Stack, Text } from '@chakra-ui/react';
