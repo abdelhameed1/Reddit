@@ -14,15 +14,21 @@ export type PostType = {
     communityImageUrl?:string,
     createdAt : Timestamp
 }
-
+export type PostVote ={
+    id:string,
+    postId:string,
+    communityId:string,
+    voteValue:number
+}
 interface PostState {
     selectedPost: PostType | null;
     posts: PostType[];
-    
+    postVotes: PostVote[];
 }
 
 const defaultPostState : PostState = {
     selectedPost: null,
+    postVotes: [],
     posts: []
 }
 
