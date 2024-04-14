@@ -77,7 +77,10 @@ const useCommunitiesData = () => {
     joinCommunity(community);
 }
    React.useEffect(() => {
-    if(!user) return;
+    if(!user) {
+        setCommunityStateValue(prev => ({...prev , mySnippets:[]}));
+        return;
+}
     getSnippets()
    },[user])
 
