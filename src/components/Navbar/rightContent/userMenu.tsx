@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { Menu, MenuButton, Button, MenuList, MenuItem, Icon, Flex, MenuDivider, Box, Text } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuList, MenuItem, Icon, Flex, MenuDivider, Box, Text } from '@chakra-ui/react';
 import { User, signOut } from 'firebase/auth';
 import React from 'react';
 import { FaRedditSquare } from 'react-icons/fa';
@@ -8,18 +8,17 @@ import { IoSparkles } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
 import { MdOutlineLogin } from 'react-icons/md';
 import { auth } from '@/firebase/clientApp';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { AuthModalState } from '@/atoms/authModalAtom';
-import { communityState } from '@/atoms/communitiesAtom';
 type userMenuProps = {
     user?: User | null
 };
 
 const UserMenu: React.FC<userMenuProps> = ({ user }) => {
     const [modalState, setModalState] = useRecoilState(AuthModalState);
-    
+
     const logout = async () => {
-       await signOut(auth)
+        await signOut(auth)
     }
     return <>
         <Menu>
@@ -33,7 +32,7 @@ const UserMenu: React.FC<userMenuProps> = ({ user }) => {
                                     mr={1}
                                     color={'grey.300'}
                                     as={FaRedditSquare} />
-                                <Box 
+                                <Box
                                     display={{ base: "none", lg: "flex" }}
                                     flexDirection="column"
                                     fontSize="8pt"
