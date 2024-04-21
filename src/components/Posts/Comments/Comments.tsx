@@ -4,7 +4,7 @@ import { User } from 'firebase/auth';
 import React from 'react';
 import CommentInput from './CommentInput';
 import { firestore } from '@/firebase/clientApp';
-import { Timestamp, collection, doc, increment, serverTimestamp, writeBatch } from 'firebase/firestore';
+import { Timestamp, collection, doc, getDocs, increment, orderBy, query, serverTimestamp, where, writeBatch } from 'firebase/firestore';
 import { useSetRecoilState } from 'recoil';
 import CommentItem, { Comment } from './CommentItem';
 
@@ -19,7 +19,8 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
     const [commentText, setCommentText] = React.useState<string>('')
     const [comments, setComments] = React.useState<Comment[]>([])
     const [createloading, setCreateLoading] = React.useState(false)
-    const [loading, setLoading] = React.useState(false)
+    const [loading, setLoading] = React.useState(true)
+    const [loadingDelete, setLoadingDelete] = React.useState('')
     const setPostState = useSetRecoilState(postState)
 
     const onCreateCommnet = async () => {
@@ -57,16 +58,53 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
             console.log('oncreatecomment', error)
         }
     }
-    const onDeleteComment = async (comment: Comment) => { }
-    const getPostComments = async (postId: string) => { }
+    const onDeleteComment = async (comment: Comment) => {
+        try{    
+            setLoadingDelete(comment.id)
+            const batch = writeBatch(firestore)
+            const commenDocRef = doc(firestore,'comments',comment.id)
+            batch.delete(commenDocRef)
+
+            const postDocRef = doc(firestore,'posts',selectedPost?.id!)
+            batch.update(postDocRef,{numberOfComments: increment(-1)})
+             await batch.commit()
+             setPostState(prev => ({
+                ...prev,
+                selectedPost:{
+                    ...prev.selectedPost,
+                    numberOfComments: prev.selectedPost?.numberOfComments! - 1
+                } as PostType
+             }))
+             setComments(prev => prev.filter(item => item.id !== comment.id))
+        }catch(e : any){    
+            console.log('deletecomment', e)
+        }
+        setLoadingDelete('')
+     }
+    const getPostComments = async () => {
+        try {
+            const commentsQuery = query(collection(firestore, 'comments'), where('postId', '==', selectedPost?.id), orderBy('createdAt', 'desc'));
+            const commentsDocs = await getDocs(commentsQuery)
+            const comments = commentsDocs.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }))
+            setComments(comments as Comment[])
+            setLoading(false)
+        } catch (error: any) {
+            console.log('getpostcomments', error)
+        }
+    }
 
     React.useEffect(() => {
-        //getPostComments()
-    }, [])
+        if (!selectedPost) return;
+        getPostComments()
+    }, [selectedPost])
     return (
         <Box bg={'white'} borderRadius={'0px 0px 4px 4px'} p={2}>
             <Flex direction={'column'} pl={10} pr={4} mb={6} fontSize={'10pt'} width={'100%'}>
-                <CommentInput comment={commentText} setComment={setCommentText} loading={loading} user={user} onCreateComment={onCreateCommnet} />
+                {!loading && <CommentInput comment={commentText} setComment={setCommentText} loading={createloading} user={user} onCreateComment={onCreateCommnet} />
+                }
             </Flex>
             <Stack spacing={6} p={2}>
                 {
@@ -97,8 +135,8 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
                             ) : (
                                 <>
                                     {
-                                        comments.map(comment => (
-                                            <CommentItem comment={comment} onDeleteComment={onDeleteComment} loading={false} userId={user.uid} />
+                                        comments.map((comment, index) => (
+                                            <CommentItem comment={comment} onDeleteComment={onDeleteComment} loading={loadingDelete === comment.id ? true : false} userId={user.uid} key={index} />
                                         ))
                                     }
                                 </>
