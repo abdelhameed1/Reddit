@@ -29,7 +29,7 @@ const  CommunityPage:React.FC<CommunityPageProps> = ({communityData}) => {
         currentCommunity: communityData
     }));
     
-    },[])
+    },[communityData])
     return (
         <>
         <Header communityData={communityData}/>
