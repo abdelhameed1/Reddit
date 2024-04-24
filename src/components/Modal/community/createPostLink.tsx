@@ -2,7 +2,6 @@ import { AuthModalState } from "@/atoms/authModalAtom";
 import { auth } from "@/firebase/clientApp";
 import useMenu from "@/hooks/useMenu";
 import { Flex, Icon, Input } from "@chakra-ui/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
