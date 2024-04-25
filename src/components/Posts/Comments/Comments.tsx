@@ -136,7 +136,7 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
                                 <>
                                     {
                                         comments.map((comment, index) => (
-                                            <CommentItem comment={comment} onDeleteComment={onDeleteComment} loading={loadingDelete === comment.id ? true : false} userId={user.uid} key={index} />
+                                            <CommentItem comment={comment} onDeleteComment={onDeleteComment} loading={loadingDelete === comment.id ? true : false} userId={user?.uid} key={index} />
                                         ))
                                     }
                                 </>
