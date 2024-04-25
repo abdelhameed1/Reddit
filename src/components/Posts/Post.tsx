@@ -1,6 +1,7 @@
 import { PostType } from '@/atoms/postsAtom';
 import { Alert, AlertIcon, Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from '@chakra-ui/react';
 import moment from 'moment';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { AiOutlineDelete } from "react-icons/ai";
@@ -25,10 +26,11 @@ type PostProps = {
     userVoteValue?: number,
     onVote: (e : React.MouseEvent<SVGElement , MouseEvent>,post: PostType, vote: number, communityId: string) => void,
     onDeletePost: (post: PostType) => Promise<boolean>,
-    onSelectPost?: (post: PostType) => void
+    onSelectPost?: (post: PostType) => void,
+    HomePage? : boolean
 };
 
-const Post: React.FC<PostProps> = ({ post, userIsCreator, userVoteValue, onVote, onDeletePost, onSelectPost }) => {
+const Post: React.FC<PostProps> = ({ post, userIsCreator, userVoteValue, onVote, onDeletePost, onSelectPost , HomePage }) => {
     const [loadingImage, setLoadingImage] = React.useState<boolean>(true)
     const [loadingDelete, setLoadingDelete] = React.useState<boolean>(false)
     const [error, setError] = React.useState(false)
@@ -76,6 +78,14 @@ const Post: React.FC<PostProps> = ({ post, userIsCreator, userVoteValue, onVote,
                 }
                 <Stack spacing={1} p={'10px'}>
                     <Stack direction={'row'} spacing={.6} align={'center'} fontSize={'9pt'}>
+                        {HomePage && (
+                        <>
+                        {
+                            post.communityImageUrl ? (<Image src={post.communityImageUrl} boxSize={'18px'} mr={2} borderRadius={'full'} />) : (<Icon as={FaReddit} fontSize={'18pt'} mr={1} color={'blue.500'}/>)
+                        }
+                        <Link href={`r/${post.communityId}`}  ><Text fontWeight={700} _hover={{textDecoration : 'underline'}} onClick={e=> e.stopPropagation}>{`r/${post.communityId}`} </Text></Link>
+                        <Icon as={BsDot} color={'grey.500'} fontSize={8}/>
+                        </>) }
                         <Text>Posted By u/{post.creatorDisplayName} {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}</Text>
                     </Stack>
                     <Text fontSize={'12pt'} fontWeight={'600'}>{post.title}</Text>
