@@ -20,7 +20,7 @@ const SubmitPage: React.FC = () => {
                     <Box p={'40px 0px'} borderBottom="1px solid" borderColor={'white'}>
                         <Text>Create a Post</Text>
                     </Box>
-                    <NewPostForm user={user} />
+                    <NewPostForm user={user} communityImageURL ={communityStateValue.currentCommunity?.imageURL} />
                 </>) : (<>
                     <Text>Sign in to create a post</Text>
                 </>)}
