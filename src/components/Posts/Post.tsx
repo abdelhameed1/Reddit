@@ -83,7 +83,7 @@ const Post: React.FC<PostProps> = ({ post, userIsCreator, userVoteValue, onVote,
                         {
                             post.communityImageUrl ? (<Image src={post.communityImageUrl} boxSize={'18px'} mr={2} borderRadius={'full'} />) : (<Icon as={FaReddit} fontSize={'18pt'} mr={1} color={'blue.500'}/>)
                         }
-                        <Link href={`r/${post.communityId}`}  ><Text fontWeight={700} _hover={{textDecoration : 'underline'}} onClick={e=> e.stopPropagation}>{`r/${post.communityId}`} </Text></Link>
+                        <Link href={`r/${post.communityId}`}  ><Text fontWeight={700} _hover={{textDecoration : 'underline'}} onClick={e=> e.stopPropagation()}>{`r/${post.communityId}`} </Text></Link>
                         <Icon as={BsDot} color={'grey.500'} fontSize={8}/>
                         </>) }
                         <Text>Posted By u/{post.creatorDisplayName} {moment(new Date(post.createdAt?.seconds * 1000)).fromNow()}</Text>
