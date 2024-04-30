@@ -1,6 +1,8 @@
 import { auth, firestore } from '@/firebase/clientApp';
-import { Box, Button, Checkbox, Divider, Flex, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text } from '@chakra-ui/react';
-import { doc, getDoc, runTransaction, serverTimestamp, setDoc } from 'firebase/firestore';
+import useMenu from '@/hooks/useMenu';
+import { Box, Button, Checkbox, Divider, Flex, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, useMenuState } from '@chakra-ui/react';
+import { doc,  runTransaction, serverTimestamp } from 'firebase/firestore';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -19,7 +21,8 @@ const CreateCommunity: React.FC<createCommunityProps> = ({ open, handleClose }) 
     const [error, setError] = React.useState('' as string)
     const [loading, setLoading] = React.useState(false)
     const [user] = useAuthState(auth);
-
+    const router = useRouter();
+    const {toggleMenu} = useMenu()
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length > 21) return
         setCommunityName(e.target.value)
@@ -64,9 +67,10 @@ const CreateCommunity: React.FC<createCommunityProps> = ({ open, handleClose }) 
                 })
             })
 
+            
 
-
-
+            router.push(`/r/${communityName}`)
+            toggleMenu()
             handleClose()
         } catch (e: any) {
             console.log(e)
