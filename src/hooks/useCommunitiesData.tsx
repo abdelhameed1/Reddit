@@ -65,7 +65,7 @@ const useCommunitiesData = () => {
             setLoading(true);
            const snippetDocs = await getDocs(collection(firestore , `users/${user?.uid}/communitySnippets`))
            const snippets = snippetDocs.docs.map((doc) => ({...doc.data()}));
-           setCommunityStateValue(prev => ({...prev , mySnippets:snippets as CommunitySnippet[] }));
+           setCommunityStateValue(prev => ({...prev , mySnippets:snippets as CommunitySnippet[], snippetsFetched:true }));
             
         }catch(e:any){
             console.log('getSnippetsError',e)
@@ -97,7 +97,7 @@ try{
 }
    React.useEffect(() => {
     if(!user) {
-        setCommunityStateValue(prev => ({...prev , mySnippets:[]}));
+        setCommunityStateValue(prev => ({...prev , mySnippets:[] , snippetsFetched:false}));
         return;
 }
     getSnippets()
