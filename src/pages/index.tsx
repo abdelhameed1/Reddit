@@ -5,7 +5,7 @@ import { auth, firestore } from "@/firebase/clientApp";
 import React from "react";
 import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import usePosts from "@/hooks/usePosts";
-import { PostType } from "@/atoms/postsAtom";
+import { PostType, PostVote } from "@/atoms/postsAtom";
 import Loader from "@/components/Posts/Loader";
 import { Stack } from "@chakra-ui/react";
 import Post from "@/components/Posts/Post";
@@ -61,11 +61,34 @@ export default function Home() {
     }
     setLoading(false);
   }
-  const getUserPostVotes = () =>{}
+  const getUserPostVotes = async () =>{
+    try{
+      const postIds = postStateValue.posts.map(post => post.id);
+      const postVotesQuery = query(collection(firestore,`users/${user?.uid}/postVotes`),where('postId','in',postIds));
+      const postVotesDocs = await getDocs(postVotesQuery);
+      const postVotes = postVotesDocs.docs.map(doc => ({id : doc.id , ...doc.data()}));
+      setPostStateValue(prev => ({
+        ...prev , 
+        postVotes : postVotes as PostVote[]
+      }))
+    }catch(e:any){
+      console.log('getUserPostVotesError',e.message)
+    }
+  }
 
   React.useEffect(()=>{
     if(communityStateValue.snippetsFetched) buildUserHomeFeed();   
   },[communityStateValue.mySnippets])
+
+  React.useEffect(()=>{
+    if(user && postStateValue.posts.length) getUserPostVotes();
+    return ()=>{
+      setPostStateValue(prev => ({
+        ...prev , 
+        postVotes : []
+      }))
+    }  
+  },[postStateValue.posts , user])
   
   React.useEffect(()=>{
     if(!user && !loadingUser) buildNoUserHomeFeed();    
